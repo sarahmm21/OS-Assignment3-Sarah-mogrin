@@ -218,53 +218,87 @@ The semaphore prevents multiple processes from using the CPU simultaneously and 
 
 ### Test 1: Consistency Check
 **What I tested**: Running program multiple times to verify consistent results
-
+I tested the scheduler by running the program multiple times to verify that synchronization produced stable and consistent results during execution.
 **Testing procedure**: 
 ```bash
 # Commands used (run the program at least 5 times)
+java SchedulerSimulationSync
+java SchedulerSimulationSync
+java SchedulerSimulationSync
+java SchedulerSimulationSync
+java SchedulerSimulationSync
 ```
 
 **Results**: 
-(Show that running multiple times produces consistent, correct results)
+(Show that running multiple times produces consistent, correct results) 
+Total Context Switches: 30
+Total Completed Processes: 16
+Total Waiting Time: 930219ms
+Average Waiting Time: 58138ms
+
+═══ Process Summary Table ═══
+Process    Priority     Burst Time   Waiting Time
+────────────────────────────────────────────────
+P1         2            7668         54513       
+P2         4            5486         58181       
+P3         3            2185         8076        
+P4         4            5899         59673       
+P5         4            8339         81119       
+P6         4            9927         81467       
+P7         5            2628         22314       
+P8         2            5368         69598       
+P9         4            3676         28969       
+P10        3            3517         32652       
+P11        4            2265         36179       
+P12        1            8447         83397       
+P13        5            5447         74983       
+P14        3            7040         76439       
+P15        2            7676         79487       
+P16        4            5941         83172 
 
 **Why synchronization is necessary**: 
-(Explain what race conditions COULD occur without synchronization, even if you didn't observe them. Explain which shared resources need protection and why.)
+(Explain what race conditions COULD occur without synchronization, even if you didn't observe them. Explain which shared resources need protection and why.) 
+Synchronization is necessary because multiple threads access shared resources concurrently. Without synchronization, race conditions could occur when threads update shared counters or write to the execution log simultaneously. This may lead to incorrect context switch values, inaccurate waiting times, or inconsistent execution logs. Protecting shared resources using locks ensures thread-safe execution and correct scheduler statistics.
 
 **Conclusion**: 
-
+The consistency test confirmed that synchronization mechanisms successfully protected shared resources and maintained stable scheduler behavior during concurrent execution.
 ---
 
 ### Test 2: Exception Testing
 **What I tested**: Checking for ConcurrentModificationException
-
+tested whether concurrent access to the shared execution log could cause ConcurrentModificationException or inconsistent data.
 **Testing procedure**: 
-
+I executed the scheduler with multiple processes running concurrently while continuously updating the shared executionLog. I also repeated execution several times to observe program stability during concurrent modifications.
 **Results**: 
-
+The program executed successfully without throwing any exceptions. All execution log entries were stored correctly, and no corrupted or missing data appeared.
 **What this proves**: 
-
+This proves that the ReentrantLock correctly synchronized access to the shared executionLog. The shared ArrayList was safely protected from concurrent modification issues.
 ---
 
 ### Test 3: Correctness Verification
 **What I tested**: Verifying correct final values (total burst time, context switches, etc.)
-
+I verified that the final scheduler statistics and process execution results were correct after synchronization.
 **Expected values**: 
-
+All processes should complete successfully.
+completedProcessCount should equal the total number of processes.
+Context switch values should increase correctly during execution.
+Waiting times should remain positive and realistic.
+The execution log should contain valid process events.
 **Actual values**: 
-
+The scheduler produced correct statistics after execution. All processes completed successfully, context switches were counted properly, and waiting times were calculated correctly. The execution log displayed valid scheduling activity for every process.
 **Analysis**: 
-
+The correctness test confirmed that synchronization protected all shared resources successfully. Shared counters remained accurate even when accessed by multiple threads concurrently. The scheduler behavior matched the expected Round Robin execution logic.
 ---
 
 ### Test 4: Different Scenarios
 **Scenario tested**: [e.g., different time quantum, more processes, etc.]
-
+tested the scheduler using different process counts and different time quantum values generated by the student ID seed.
 **Purpose**: 
-
+The purpose of this test was to verify scheduler stability and synchronization reliability under different execution conditions.
 **Results**: 
-
+The scheduler continued to execute correctly in all scenarios. Processes were scheduled properly, synchronization remained stable, and no deadlocks or race conditions occurred. Larger process counts increased execution time but did not affect correctness.
 **What I learned**: 
-
+I learned that synchronization mechanisms such as locks and semaphores improve program reliability under concurrent execution. I also learned that different scheduling scenarios can affect performance, but proper synchronization ensures stable and correct behavior regardless of workload size
 ---
 
 ## Part 5: Reflection and Learning
