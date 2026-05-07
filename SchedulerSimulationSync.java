@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 // ANSI Color Codes for enhanced terminal output
 class Colors {
@@ -38,6 +39,9 @@ class SharedResources {
 
     // TODO #1: Add a ReentrantLock(s) here to protect critical sections
     // Example: public static final ReentrantLock lock = new ReentrantLock();
+
+    // 1
+    public static final ReentrantLock lock = new ReentrantLock();
 
     // TODO #2: Add a Semaphore to limit concurrent process execution
     // Example: public static final Semaphore cpuSemaphore = new Semaphore(1);
@@ -227,8 +231,9 @@ class Process implements Runnable {
 public class SchedulerSimulationSync {
     public static void main(String[] args) {
         // ⚠️ IMPORTANT: Put your student ID here
+
         int studentID = 445052163; // ← CHANGE THIS TO YOUR ACTUAL STUDENT ID
-t
+
         Random random = new Random(studentID);
 
         int timeQuantum = 2000 + random.nextInt(4) * 1000;
