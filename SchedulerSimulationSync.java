@@ -77,7 +77,13 @@ class SharedResources {
     // Method to add waiting time
     public static void addWaitingTime(long time) {
         // TODO: Protect this critical section with a lock
-        totalWaitingTime += time;
+        // 5
+        lock.lock();
+        try {
+            totalWaitingTime += time;
+        } finally {
+            lock.tryLock();
+        }
     }
 
     // Method to log execution
