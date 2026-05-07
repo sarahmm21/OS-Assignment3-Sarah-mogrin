@@ -328,31 +328,41 @@ Synchronization is a way to organize threads so they can safely share resources 
 
 ## Part 6: GitHub Repository Information
 
-**Repository URL**: 
+**Repository URL**: https://github.com/sarahmm21/OS-Assignment3-Sarah-mogrin.git
 
-**Number of commits**: 
+**Number of commits**: 15
 
 **Commit messages**: 
-1. 
-2. 
-3. 
-4. 
+1- update student ID to
+2- Add ReentrantLock for synchronization
+3- add Semaphore and import
+4- protect shared contextSwitchCount using lock and release
+5- protect shared completedProcessCount using lock and unlock
+6- protect shared totalWaitingTime using lock and unlock to prevent deadlock
+7- protect shared executionLog using lock and unlock
+8- use Semaphore to control CPU access in process execution
+9- apply semaphore in runToCompletion method
+10- unlock update
+11- answer part 2
+12- answer part 3
+13- answer part 4
+14- part 5
 
 ---
 
 ## Summary
 
-**Total time spent on assignment**: 
+**Total time spent on assignment**: 3 days 
 
 **Key takeaways**: 
-1. 
-2. 
-3. 
+1- Synchronization is important to protect shared resources in multithreaded programs.
+2- ReentrantLock and Semaphore help prevent race conditions and improve thread safety.
+3- Proper synchronization improves program stability and ensures correct scheduler execution.
 
 **Most challenging aspect**: 
-
+Understanding how to correctly synchronize shared resources and manage thread execution safely.
 **What I'm most proud of**: 
-
+Successfully implementing synchronization mechanisms and making the scheduler execute correctly without race conditions or deadlocks
 ---
 
 **End of Documentation**
