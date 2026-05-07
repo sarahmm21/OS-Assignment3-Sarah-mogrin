@@ -90,6 +90,7 @@ class SharedResources {
     public static void logExecution(String message) {
         // TODO: Protect this critical section with a lock
         // RACE CONDITION: ArrayList is not thread-safe!
+        // 6
         lock.lock();
         try {
             executionLog.add(message);
@@ -125,6 +126,11 @@ class Process implements Runnable {
     public void run() {
         // TODO #3: Acquire CPU semaphore before executing
         // This ensures only allowed number of processes run simultaneously
+        try {
+            SharedResources.cpuSemaphore.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         try {
             if (startTime == -1) {
@@ -188,6 +194,7 @@ class Process implements Runnable {
         } finally {
             // TODO #4: Release CPU semaphore here
             // Always release in finally block to prevent deadlocks!
+            SharedResources.cpuSemaphore.release();
         }
     }
 
