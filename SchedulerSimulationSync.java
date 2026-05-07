@@ -57,7 +57,7 @@ class SharedResources {
         try {
             contextSwitchCount++;
         } finally {
-            lock.tryLock();
+            lock.unlock();
         }
     }
 
@@ -69,7 +69,7 @@ class SharedResources {
         try {
             completedProcessCount++;
         } finally {
-            lock.tryLock();
+            lock.unlock();
         }
 
     }
@@ -82,7 +82,7 @@ class SharedResources {
         try {
             totalWaitingTime += time;
         } finally {
-            lock.tryLock();
+            lock.unlock();
         }
     }
 
@@ -95,7 +95,7 @@ class SharedResources {
         try {
             executionLog.add(message);
         } finally {
-            lock.tryLock();
+            lock.unlock();
         }
 
     }
