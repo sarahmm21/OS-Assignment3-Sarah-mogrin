@@ -147,52 +147,71 @@ I used one ReentrantLock for all three shared counters, which is considered coar
 ### Critical Section #1: Counter Variables
 
 **Which variables**: 
-
+contextSwitchCount, completedProcessCount, and totalWaitingTime
 **Why they need protection**: 
-
+These variables are shared between multiple threads and may be updated at the same time. Without synchronization, race conditions could occur and produce incorrect values.
 **Synchronization mechanism used**: 
-
+ReentrantLock
 **Code snippet**:
 ```java
-// Paste your implementation here
+// Paste your implementation here 
+lock.lock();
+try {
+    contextSwitchCount++;
+} finally {
+    lock.unlock();
+}
 ```
 
 **Justification**: 
-
+The lock ensures that only one thread updates the counters at a time, preventing inconsistent results.
 ---
 
 ### Critical Section #2: Execution Log
 
 **What resource**: 
-
+executionLog
 **Why it needs protection**: 
-
+Multiple threads write to the same ArrayList, and concurrent modification may corrupt the log or cause inconsistent entries.
 **Synchronization mechanism used**: 
-
+ReentrantLock
 **Code snippet**:
 ```java
-// Paste your implementation here
+// Paste your implementation here 
+lock.lock();
+try {
+    executionLog.add(message);
+} finally {
+    lock.unlock();
+}
 ```
 
-**Justification**: 
+**Justification**: Synchronization protects the shared list and ensures execution messages are added safely.
 
 ---
 
 ### Critical Section #3: CPU Semaphore
 
 **Purpose of semaphore**: 
-
+To control CPU access and ensure that only one process executes at a time.
 **Number of permits and why**: 
-
+1 permit was used because the simulation represents a single CPU resource.
 **Where implemented**: 
-
+Inside the run() and runToCompletion() methods.
 **Code snippet**:
 ```java
 // Paste your implementation here
+SharedResources.cpuSemaphore.acquire();
+
+try {
+    // process execution
+} finally {
+    SharedResources.cpuSemaphore.release();
+}
 ```
 
 **Effect on program behavior**: 
-
+The semaphore prevents multiple processes from using the CPU simultaneously and improves synchronization between threads.
 ---
 
 ## Part 4: Testing and Verification (2 marks)
